@@ -1,0 +1,33 @@
+h2. TranslateModel
+
+Minimal support for translation of models in Rails with fallback to default locale if translations are not set, or fields does not exists.
+
+h2. Example
+
+# default columns does not have suffix
+create_table :topics, :force => true do |t|
+  t.string :title, :title_hr, :title_sl
+  t.string :body, :body_hr, :body_sl
+  t.integer :author_id
+end
+
+@topic = Topic.new(
+  :title => "title en",
+  :title_hr => "title hr"
+  :title_sl => nil
+)
+
+@topic.title # => "title en"
+
+I18n.locale = 'hr-HR'
+@topic.title # => "title hr"
+
+I18n.locale = 'si-SL'
+@topic.title # => "title en"
+
+I18n.locale = 'de-DE'
+@topic.title # => "title en"
+
+---
+Copyright (c) 2009 Bojan Mihelac, released under the MIT license
+http://source.mihelac.org
